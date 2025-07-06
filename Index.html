@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>اختيار رقم</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+      background-color: #f2f2f2;
+    }
+    select, button {
+      padding: 10px;
+      font-size: 18px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h2>اختر رقمًا من القائمة</h2>
+
+  <form id="form">
+    <select id="choice" required>
+      <option value="">-- اختر --</option>
+      <option value="2">2</option>
+      <option value="4">4</option>
+      <option value="6">6</option>
+      <option value="8">8</option>
+    </select>
+    <br><br>
+    <button type="submit">إرسال</button>
+  </form>
+
+  <p id="status"></p>
+
+  <script>
+    document.getElementById("form").addEventListener("submit", async function(event) {
+      event.preventDefault();
+      const choice = document.getElementById("choice").value;
+      const status = document.getElementById("status");
+
+      if (!choice) {
+        status.textContent = "الرجاء اختيار رقم أولاً";
+        return;
+      }
+
+      try {
+        await fetch("https://webhook.site/458b0ef6-770e-490c-b224-a68178ad17cb", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ choice })
+        });
+        status.textContent = "✅ تم الإرسال بنجاح";
+        document.getElementById("form").reset();
+      } catch (error) {
+        status.textContent = "❌ حدث خطأ أثناء الإرسال";
+      }
+    });
+  </script>
+</body>
+</html>
